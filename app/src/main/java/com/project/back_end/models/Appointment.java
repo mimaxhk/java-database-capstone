@@ -3,17 +3,17 @@ package com.project.back_end.models;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Appointment {
@@ -35,8 +35,8 @@ public class Appointment {
   private LocalDateTime appointmentTime;
 
   @NotNull(message = "Status is required")
-  @Enumerated(EnumType.STRING)
-  @Column(columnDefinition = "ENUM('scheduled', 'completed', 'cancelled') DEFAULT 'scheduled'")
+  @Enumerated(EnumType.ORDINAL)
+  @Column(columnDefinition = "INT DEFAULT 0")
   private AppointmentStatus status = AppointmentStatus.scheduled;
 
   public Appointment() {}
