@@ -1,80 +1,451 @@
-/* This is the style sheet for the patientDashboard.html */
-  .card-actions {
-    background-color: #244557;
-    padding: 10px;
-    text-align: center;
-  }
+/* Patient Dashboard Stylesheet */
 
-  .card-actions:hover{
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base Styles */
+html,
+body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Layout Wrapper */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main Content Area */
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Search Bar Styling */
+#searchBar,
+.searchBar {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#searchBar:focus,
+.searchBar:focus {
+    outline: none;
+    border-color: #015c5d;
+    box-shadow: 0 0 5px rgba(1, 92, 93, 0.3);
+}
+
+/* Filter Wrapper */
+.filter-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Filter Select Dropdowns */
+.filter-select,
+select {
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-select:focus,
+select:focus {
+    outline: none;
+    border-color: #015c5d;
+    box-shadow: 0 0 5px rgba(1, 92, 93, 0.3);
+}
+
+/* Doctor Card Styles */
+.doctor-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Doctor Card Actions */
+.card-actions {
+    background-color: #244557;
+    padding: 15px 10px;
+    text-align: center;
+    border-radius: 4px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.card-actions:hover {
     background-color: #1c3745;
-  }
-  .ripple-overlay {
+}
+
+.card-actions button {
+    background-color: #015c5d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.card-actions button:hover {
+    background-color: #017d7e;
+    transform: scale(1.05);
+}
+
+.card-actions button:active {
+    transform: scale(0.98);
+}
+
+/* Ripple Overlay for Click Feedback */
+.ripple-overlay {
     position: fixed;
     width: 20px;
     height: 20px;
-    background-color: #1c3745;
+    background-color: rgba(1, 92, 93, 0.6);
     border-radius: 50%;
     z-index: 9999;
     transform: translate(-50%, -50%) scale(0);
     transition: transform 1s ease-out, opacity 1s ease;
-  }
-  
-  .ripple-overlay.active {
-    transform: translate(-50%, -50%) scale(150);
-    opacity: 1;
-  }
-  
-  .modalApp {
-    position: fixed;
-  bottom: -100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  background: #fff;
-  padding: 20px;
-  z-index: 10000;
-  transition: bottom 1.5s ease-in;
-  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 10px 10px 0 0;
-  text-align: center;
-  }
-  
-  .modalApp.active {
-    bottom: 0;
-  }
-  
-  .modalApp h2 {
-    margin-top: 20px;
-  }
-  
-  .modalApp input {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    width: 90%;
-    margin-bottom: 40px;
-  }
+    pointer-events: none;
+}
 
-  .modalApp select {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
+.ripple-overlay.active {
+    transform: translate(-50%, -50%) scale(150);
+    opacity: 0;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 8000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
     width: 90%;
-    margin-bottom: 40px;
-  }
-  
-  .confirm-booking {
-    padding: 10px 20px;
-    background: #1c3745;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #003e3e;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #A62B1F;
+}
+
+/* Bottom Pop-Up Modal for Booking */
+.modalApp {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    background: white;
+    padding: 30px;
+    z-index: 10000;
+    transition: bottom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modalApp.active {
+    bottom: 0;
+}
+
+.modalApp h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #003e3e;
+    font-size: 24px;
+}
+
+.modalApp h3 {
+    margin-bottom: 15px;
+    color: #015c5d;
+    font-size: 18px;
+}
+
+/* Form Fields Inside Modal */
+.modalApp input,
+.modalApp input[type="text"],
+.modalApp input[type="email"],
+.modalApp input[type="date"],
+.modalApp input[type="time"],
+.modalApp textarea {
+    display: block;
+    margin: 12px auto;
+    padding: 12px 15px;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modalApp input:focus,
+.modalApp input[type="text"]:focus,
+.modalApp input[type="email"]:focus,
+.modalApp input[type="date"]:focus,
+.modalApp input[type="time"]:focus,
+.modalApp textarea:focus {
+    outline: none;
+    border-color: #015c5d;
+    box-shadow: 0 0 5px rgba(1, 92, 93, 0.3);
+}
+
+.modalApp select {
+    display: block;
+    margin: 12px auto;
+    padding: 12px 15px;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modalApp select:focus {
+    outline: none;
+    border-color: #015c5d;
+    box-shadow: 0 0 5px rgba(1, 92, 93, 0.3);
+}
+
+/* Booking Confirmation Button */
+.confirm-booking {
+    padding: 12px 30px;
+    background: #015c5d;
     color: #fff;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
-    
-  
-    
-  }
-  .confirm-booking:hover {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+.confirm-booking:hover {
     filter: brightness(1.2);
-    background-color: #1c3745;
-  }
+    transform: scale(1.05);
+}
+
+.confirm-booking:active {
+    transform: scale(0.98);
+}
+
+.confirm-booking:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+    filter: none;
+}
+
+/* Content Container for Doctor Cards */
+#content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 25px;
+    }
+
+    #content {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .modalApp {
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    #searchBar,
+    .searchBar {
+        max-width: 100%;
+    }
+
+    .filter-wrapper {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
+
+    #content {
+        grid-template-columns: 1fr;
+    }
+
+    .doctor-card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .modalApp {
+        width: 95%;
+        max-width: 100%;
+        padding: 20px;
+        bottom: -100%;
+    }
+
+    .modalApp h2 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+
+    .modalApp input,
+    .modalApp select,
+    .modalApp textarea {
+        width: 95%;
+        max-width: 100%;
+    }
+
+    .confirm-booking {
+        width: 95%;
+        max-width: 100%;
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    #searchBar,
+    .searchBar,
+    .filter-select {
+        font-size: 14px;
+    }
+
+    #content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .doctor-card {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .card-actions {
+        padding: 10px 5px;
+    }
+
+    .card-actions button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .modalApp {
+        width: 100%;
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        max-height: 90vh;
+    }
+
+    .modalApp h2 {
+        font-size: 18px;
+    }
+
+    .modalApp h3 {
+        font-size: 16px;
+    }
+
+    .modalApp input,
+    .modalApp select,
+    .modalApp textarea {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px 12px;
+    }
+
+    .confirm-booking {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
   
