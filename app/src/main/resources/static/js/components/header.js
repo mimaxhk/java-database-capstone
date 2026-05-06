@@ -17,7 +17,7 @@ function renderHeader() {
     headerDiv.innerHTML = `
       <header class="header">
         <div class="logo-section">
-          <img src="./assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
+          <img src="/assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
           <span class="logo-title">Hospital CMS</span>
         </div>
       </header>`;
@@ -31,7 +31,7 @@ function renderHeader() {
   // Initialize header content with logo section
   let headerContent = `<header class="header">
     <div class="logo-section">
-      <img src="./assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
+      <img src="/assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
       <span class="logo-title">Hospital CMS</span>
     </div>
     <nav>`;
