@@ -68,11 +68,10 @@ export async function getPatientData(token) {
 export async function getPatientAppointments(id, token, user) {
   try {
     const safeId = encodeURIComponent(String(id));
-    const safeUser = encodeURIComponent(String(user));
     const safeToken = encodeURIComponent(String(token));
 
     // Fetch appointments by user context
-    const response = await fetch(`${PATIENT_API}/${safeId}/${safeUser}/${safeToken}`);
+    const response = await fetch(`${API_BASE_URL}/patient/${safeId}/${safeToken}`);
     const data = await response.json();
 
     if (response.ok) {

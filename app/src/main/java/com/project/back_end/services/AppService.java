@@ -97,10 +97,16 @@ public class AppService {
         LocalDate date = appointment.getAppointmentTime().toLocalDate();
         List<String> available = doctorService.getDoctorAvailability(doctorId, date);
 
+        // Format appointment time as HH:mm (24-hour format)
         String requestedTime = appointment.getAppointmentTime()
-                .format(java.time.format.DateTimeFormatter.ofPattern("hh:mm a"));
+                .format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
 
-        boolean match = available.stream().anyMatch(slot -> slot.equalsIgnoreCase(requestedTime));
+        // Extract start times from slots and compare
+        boolean match = available.stream().anyMatch(slot -> {
+            // Slots are in format "HH:mm-HH:mm", extract the start time
+            String slotStart = slot.split("-")[0].trim();
+            return slotStart.equalsIgnoreCase(requestedTime);
+        });
         return match ? 1 : 0;
     }
 
