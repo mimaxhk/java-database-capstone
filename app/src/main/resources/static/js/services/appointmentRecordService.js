@@ -10,7 +10,24 @@ export async function getAllAppointments(date, patientName, token) {
     throw new Error("Failed to fetch appointments");
   }
 
-  return await response.json();
+  const data = await response.json();
+  
+  // Transform appointments to flatten nested doctor/patient objects
+  if (data.appointments && Array.isArray(data.appointments)) {
+    return data.appointments.map(appointment => ({
+      id: appointment.id,
+      patientId: appointment.patient?.id,
+      patientName: appointment.patient?.name,
+      patientPhone: appointment.patient?.phone,
+      patientEmail: appointment.patient?.email,
+      doctorId: appointment.doctor?.id,
+      doctorName: appointment.doctor?.name,
+      appointmentTime: appointment.appointmentTime,
+      status: appointment.status
+    }));
+  }
+  
+  return [];
 }
 
 export async function bookAppointment(appointment, token) {
