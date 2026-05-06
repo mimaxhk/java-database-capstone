@@ -14,23 +14,28 @@ const DOCTOR_API = API_BASE_URL + '/doctor/login';
 /**
  * Setup event listeners when page loads
  */
-window.onload = function () {
-  // Setup Admin login button
-  const adminBtn = document.getElementById('adminLogin');
+window.addEventListener('DOMContentLoaded', () => {
+  const adminBtn = document.getElementById('admin-btn');
   if (adminBtn) {
     adminBtn.addEventListener('click', () => {
       openModal('adminLogin');
     });
   }
 
-  // Setup Doctor login button
-  const doctorBtn = document.getElementById('doctorLogin');
+  const patientBtn = document.getElementById('patient-btn');
+  if (patientBtn) {
+    patientBtn.addEventListener('click', () => {
+      window.location.href = '/pages/patientDashboard.html';
+    });
+  }
+
+  const doctorBtn = document.getElementById('doctor-btn');
   if (doctorBtn) {
     doctorBtn.addEventListener('click', () => {
       openModal('doctorLogin');
     });
   }
-};
+});
 
 /**
  * Admin Login Handler
@@ -39,8 +44,8 @@ window.onload = function () {
 window.adminLoginHandler = async function () {
   try {
     // Get input values
-    const username = document.getElementById('adminUsername')?.value;
-    const password = document.getElementById('adminPassword')?.value;
+    const username = document.getElementById('username')?.value;
+    const password = document.getElementById('password')?.value;
 
     // Validate inputs
     if (!username || !password) {
@@ -75,11 +80,11 @@ window.adminLoginHandler = async function () {
         // Close modal and navigate to admin dashboard
         const modal = document.getElementById('modal');
         if (modal) {
-          modal.classList.remove('show');
+          modal.style.display = 'none';
         }
 
         // Redirect to admin dashboard
-        window.location.href = '/templates/admin/adminDashboard.html';
+        window.location.href = `/adminDashboard/${data.token}`;
       } else {
         alert('Login successful but no token received. Please try again.');
       }
@@ -101,8 +106,8 @@ window.adminLoginHandler = async function () {
 window.doctorLoginHandler = async function () {
   try {
     // Get input values
-    const email = document.getElementById('doctorEmail')?.value;
-    const password = document.getElementById('doctorPassword')?.value;
+    const email = document.getElementById('email')?.value;
+    const password = document.getElementById('password')?.value;
 
     // Validate inputs
     if (!email || !password) {
@@ -137,11 +142,11 @@ window.doctorLoginHandler = async function () {
         // Close modal and navigate to doctor dashboard
         const modal = document.getElementById('modal');
         if (modal) {
-          modal.classList.remove('show');
+          modal.style.display = 'none';
         }
 
         // Redirect to doctor dashboard
-        window.location.href = '/templates/doctor/doctorDashboard.html';
+        window.location.href = `/doctorDashboard/${data.token}`;
       } else {
         alert('Login successful but no token received. Please try again.');
       }

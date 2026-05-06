@@ -75,9 +75,12 @@ export function openModal(type) {
   document.getElementById('modal-body').innerHTML = modalContent;
   document.getElementById('modal').style.display = 'block';
 
-  document.getElementById('closeModal').onclick = () => {
-    document.getElementById('modal').style.display = 'none';
-  };
+  const closeBtn = document.getElementById('closeModal');
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      document.getElementById('modal').style.display = 'none';
+    };
+  }
 
   if (type === "patientSignup") {
     document.getElementById("signupBtn").addEventListener("click", signupPatient);
