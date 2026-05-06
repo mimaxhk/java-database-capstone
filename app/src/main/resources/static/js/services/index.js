@@ -10,6 +10,7 @@ import { API_BASE_URL } from '../config/config.js';
 // Define API endpoints
 const ADMIN_API = API_BASE_URL + '/admin';
 const DOCTOR_API = API_BASE_URL + '/doctor/login';
+const PATIENT_API = API_BASE_URL + '/patient';
 
 /**
  * Setup event listeners when page loads
@@ -25,6 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const patientBtn = document.getElementById('patient-btn');
   if (patientBtn) {
     patientBtn.addEventListener('click', () => {
+      localStorage.setItem('userRole', 'patient');
       window.location.href = '/pages/patientDashboard.html';
     });
   }
@@ -103,6 +105,47 @@ window.adminLoginHandler = async function () {
  * Doctor Login Handler
  * Handles doctor authentication and stores credentials in localStorage
  */
+/**
+ * Patient Login Handler
+ * Authenticates the patient and redirects to patient dashboard
+ */
+window.loginPatient = async function () {
+  try {
+    const email = document.getElementById('email')?.value;
+    const password = document.getElementById('password')?.value;
+
+    if (!email || !password) {
+      alert('Please enter both email and password.');
+      return;
+    }
+
+    const response = await fetch(`${PATIENT_API}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userRole', 'loggedPatient');
+        const modal = document.getElementById('modal');
+        if (modal) modal.style.display = 'none';
+        window.location.href = '/pages/loggedPatientDashboard.html';
+      } else {
+        alert('Login successful but no token received. Please try again.');
+      }
+    } else {
+      const errorData = await response.json();
+      alert(errorData.message || 'Invalid credentials. Please try again.');
+    }
+  } catch (error) {
+    console.error('Patient login error:', error);
+    alert('An error occurred during login. Please try again later.');
+  }
+};
+
 window.doctorLoginHandler = async function () {
   try {
     // Get input values
