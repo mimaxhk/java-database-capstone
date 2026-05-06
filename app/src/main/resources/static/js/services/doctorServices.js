@@ -78,8 +78,12 @@ export async function filterDoctors(name, time, specialty) {
   const safeTime = time && String(time).trim() ? encodeURIComponent(String(time).trim()) : "null";
   const safeSpecialty = specialty && specialty.trim() ? encodeURIComponent(specialty.trim()) : "null";
 
+  const request = `${DOCTOR_API}/filter/${safeName}/${safeTime}/${safeSpecialty}`;
+
+  console.info("filterDoctors: " + request);
+
   try {
-    const response = await fetch(`${DOCTOR_API}/${safeName}/${safeTime}/${safeSpecialty}`, {
+    const response = await fetch(request, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

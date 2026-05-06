@@ -19,9 +19,9 @@
                 <input type="text" id="searchBar" placeholder="search by doctor name" />
                 <div class="filter-section">
                     <select id="sortByTime">
-                        <option value="">Sort by Time</option>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
+                        <option value="">Filter by Time</option>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
                     </select>
                     <select id="filterBySpecialty">
                         <option value="">Filter by Specialty</option>
@@ -38,8 +38,10 @@
         </div>
     </div>
     <div id="modal" class="modal">
-        <span id="closeModal" class="close">&times;</span>
-        <div id="modal-body"></div>
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
     </div>
     <script type="module" src="/js/adminDashboard.js" defer></script>
     <script type="module" src="/js/components/doctorCard.js" defer></script>

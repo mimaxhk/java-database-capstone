@@ -68,6 +68,10 @@ public class AppService {
     }
 
     public Map<String, Object> filterDoctor(String name, String specialty, String time) {
+        name = normalizeFilterValue(name);
+        specialty = normalizeFilterValue(specialty);
+        time = normalizeFilterValue(time);
+
         boolean hasName = name != null && !name.isBlank();
         boolean hasSpecialty = specialty != null && !specialty.isBlank();
         boolean hasTime = time != null && !time.isBlank();
@@ -138,6 +142,9 @@ public class AppService {
         }
         Long patientId = patient.getId();
 
+        condition = normalizeFilterValue(condition);
+        name = normalizeFilterValue(name);
+
         boolean hasCondition = condition != null && !condition.isBlank();
         boolean hasName = name != null && !name.isBlank();
 
@@ -145,5 +152,13 @@ public class AppService {
         if (hasCondition) return patientService.filterByCondition(condition, patientId);
         if (hasName) return patientService.filterByDoctor(name, patientId);
         return patientService.getPatientAppointment(patientId, token);
+    }
+
+    private String normalizeFilterValue(String value) {
+        if (value == null) return null;
+        String trimmed = value.trim();
+        if (trimmed.isEmpty()) return null;
+        if ("null".equalsIgnoreCase(trimmed) || "undefined".equalsIgnoreCase(trimmed)) return null;
+        return trimmed;
     }
 }
