@@ -2,7 +2,7 @@ package com.project.back_end.controllers;
 
 import com.project.back_end.models.Appointment;
 import com.project.back_end.services.AppointmentService;
-import com.project.back_end.services.Service;
+import com.project.back_end.services.AppService;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -18,9 +18,9 @@ import java.util.Map;
 public class AppointmentController {
 
 	private final AppointmentService appointmentService;
-	private final Service service;
+	private final AppService service;
 
-	public AppointmentController(AppointmentService appointmentService, Service service) {
+	public AppointmentController(AppointmentService appointmentService, AppService service) {
 		this.appointmentService = appointmentService;
 		this.service = service;
 	}

@@ -1,7 +1,7 @@
 package com.project.back_end.controllers;
 
 import com.project.back_end.models.Admin;
-import com.project.back_end.services.Service;
+import com.project.back_end.services.AppService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,9 +14,9 @@ import java.util.Map;
 @RequestMapping("${api.path}" + "admin")
 public class AdminController {
 
-    private final Service service;
+    private final AppService service;
 
-    public AdminController(Service service) {
+    public AdminController(AppService service) {
         this.service = service;
     }
 
@@ -25,3 +25,4 @@ public class AdminController {
         return service.validateAdmin(admin);
     }
 }
+
