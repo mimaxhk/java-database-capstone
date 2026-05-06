@@ -108,7 +108,13 @@ public class AppService {
     public ResponseEntity<Map<String, String>> validatePatientLogin(Login login) {
         Map<String, String> response = new HashMap<>();
         try {
-            Patient patient = patientRepository.findByEmail(login.getIdentifier());
+            String identifier = login.getIdentifier();
+            if (identifier == null || identifier.isBlank() || login.getPassword() == null || login.getPassword().isBlank()) {
+                response.put("message", "Identifier/email and password are required");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            }
+
+            Patient patient = patientRepository.findByEmail(identifier);
             if (patient == null || !patient.getPassword().equals(login.getPassword())) {
                 response.put("message", "Invalid credentials");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
